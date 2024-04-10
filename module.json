@@ -1,0 +1,24 @@
+{
+	"id": "automatic-failure-tracker",
+	"name": "automatic-failure-tracker",
+	"title": "Automatic Failure Tracker",
+	"description": "Tracks any Automatic Failures rolled on a 2d6 for the Sword World system.",
+	"version": "1.0.0",
+	"minimumCoreVersion": "10",
+	"compatibleCoreVersion": "11",
+	"compatibility": {
+		"minimum": 10,
+		"verified": 11
+	},
+	"authors": [
+	{
+      "name": "Amarulence",
+      "discord": "amarulence"
+    }
+	],
+	"scripts": ["main.js"],
+	"url": "https://github.com/DarkSerpent/Automatic-Failure-Tracker",
+	"manifest": "https://github.com/DarkSerpent/Automatic-Failure-Tracker/releases/latest/download/module.json",
+	"download": "https://github.com/DarkSerpent/Automatic-Failure-Tracker/releases/latest/download/module.zip",
+	"readme": "README.md"
+}
