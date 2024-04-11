@@ -1,4 +1,21 @@
+Hooks.on('init', function() {
+  game.settings.register('automatic-failure-tracker', 'enableAutoFailTracker', {
+    name: 'Enable Automatic Failure Tracker',
+    hint: 'Check to enable the Automatic Failure Tracker. If this setting is disabled, the checkbox in the Chat Messages tab will do nothing.',
+    scope: 'client',
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: value => {
+      console.log(value ? 'Automatic Failure Tracker Enabled' : 'Automatic Failure Tracker Disabled');
+    }
+  });
+});
+
 Hooks.on("createChatMessage", (message, options, userId) => {
+  if (!game.settings.get('automatic-failure-tracker', 'enableAutoFailTracker')) {
+    return;
+  }
   if (message.isRoll && message.roll) {
     const roll = message.roll;
     console.log("Roll Content:", message.content);
@@ -32,3 +49,25 @@ Hooks.on("createChatMessage", (message, options, userId) => {
     }
   }
 });
+
+Hooks.on('renderChatLog', (app, html, data) => {
+  const enableAutoFailTracker = game.settings.get('automatic-failure-tracker', 'enableAutoFailTracker');
+  if (enableAutoFailTracker === undefined) {
+    game.settings.set('automatic-failure-tracker', 'enableAutoFailTracker', true);
+  }
+
+  const checkbox = $(`<input type="checkbox" name="enableAutoFailTracker" ${enableAutoFailTracker ? 'checked' : ''}>`);
+  const label = $(`<label style="display: flex; align-items: center;">Enable Automatic Failure Tracker</label>`);
+  label.prepend(checkbox);
+
+  const div = $('<div id="chat-controls" class="flexrow" style="white-space: nowrap; margin-bottom: 5px;"></div>');
+  div.append(label);
+  html.find('.chat-control-icon').parent().after(div);
+
+  checkbox.change(function() {
+    game.settings.set('automatic-failure-tracker', 'enableAutoFailTracker', this.checked);
+  });
+});
+
+
+
