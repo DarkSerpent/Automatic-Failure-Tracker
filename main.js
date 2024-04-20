@@ -39,12 +39,14 @@ Hooks.on("createChatMessage", (message, options, userId) => {
             playerName = game.users.get(userId).name;
           }
         }
-        ChatMessage.create({
-          content: `<div style="background-color: #FFC0CB; padding: 5px; border-radius: 5px;">
-                      <span style="font-weight: bold; color: #189AB4;">${playerName}</span> has rolled an <span style="font-weight: bold; color: #8B0000;">Automatic Failure!</span> Please check one of your Automatic Failure boxes on your sheet, if possible.
-                    </div>`,
-          type: CONST.CHAT_MESSAGE_TYPES.OTHER
-        });
+        if (game.user.id === userId) {
+          ChatMessage.create({
+            content: `<div style="background-color: #FFC0CB; padding: 5px; border-radius: 5px;">
+                        <span style="font-weight: bold; color: #189AB4;">${playerName}</span> has rolled an <span style="font-weight: bold; color: #8B0000;">Automatic Failure!</span> Please check one of your Automatic Failure boxes on your sheet, if possible.
+                      </div>`,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER
+          });
+        }
       }
     }
   }
@@ -68,6 +70,3 @@ Hooks.on('renderChatLog', (app, html, data) => {
     game.settings.set('automatic-failure-tracker', 'enableAutoFailTracker', this.checked);
   });
 });
-
-
-
